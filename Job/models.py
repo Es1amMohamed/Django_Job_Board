@@ -1,6 +1,7 @@
 from enum import auto
 from random import choices
 from django.db import models
+from django.utils.text import slugify
 
 # Create your models here.
 
@@ -21,12 +22,15 @@ class Job(models.Model):
     vacancy = models.IntegerField(default= 1 )
     salary = models.IntegerField(default= 0)
     experience = models.IntegerField(default=1)
-    category = models.ForeignKey('Category', null=True ,blank=True,on_delete= models.CASCADE)
-    
+    category = models.ForeignKey('Category', null=True ,blank=True,on_delete= models.CASCADE)  
+    slug = models.SlugField(max_length=40 , unique= True , null=True , blank=True)  
     def __str__(self):
         return self.title
     
-    
+    def save(self,*args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Job, self).save(*args, **kwargs)
+        
 class Category(models.Model):
     name = models.CharField(max_length= 30)
     

@@ -17,10 +17,16 @@ from django.contrib import admin
 from django.urls import path , include
 from django.conf import settings
 from django.conf.urls.static import static
+from Job import views
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'users', views.Jason_Job)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Job.urls', namespace= 'jobs')),
+    path('jason', include(router.urls)),
 ]
 
 urlpatterns +=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

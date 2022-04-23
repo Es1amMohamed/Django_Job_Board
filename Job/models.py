@@ -1,5 +1,6 @@
 from enum import auto
 from random import choices
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.text import slugify
 
@@ -13,7 +14,7 @@ Job_Type = (
 
 
 class Job(models.Model):
-    #owner 
+    owner = models.ForeignKey(User,related_name='owner',on_delete=models.CASCADE) 
     title = models.CharField(max_length= 40)
     description = models.TextField(max_length= 500)
     job_Responsibility = models.TextField(max_length= 1000)
@@ -23,7 +24,7 @@ class Job(models.Model):
     salary = models.IntegerField(default= 0)
     experience = models.IntegerField(default=1)
     category = models.ForeignKey('Category', null=True ,blank=True,on_delete= models.CASCADE)  
-    slug = models.SlugField(unique= True , null=True , blank=True,)  
+    slug = models.SlugField(unique=True , null=True , blank=True)  
     def __str__(self):
         return self.title
     

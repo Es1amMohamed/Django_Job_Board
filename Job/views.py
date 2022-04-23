@@ -3,6 +3,7 @@ from django.shortcuts import render
 from .models import Job
 from .job_api import Job_Jason
 from rest_framework import viewsets
+from .forms import Apply_form
 
 
 
@@ -20,8 +21,24 @@ def job_list(request):
 
 def job_details(request,slug):
     jobdetails = Job.objects.get(slug=slug)
-    context = {'job':jobdetails}
+    
+    if request.method == 'POST':
+        form = Apply_form(request.POST , request.FILES)
+        if form.is_valid():
+            mform = form.save(commit=False)
+            mform.job = jobdetails
+            mform.save()
+           
+         
+    else:
+            form = Apply_form()
+    
+    
+    context = {'job':jobdetails , 'form':form}
     return render(request,'jobs/job_details.html',context)
+
+
+
 
 class Jason_Job(viewsets.ModelViewSet):
         queryset = Job.objects.all()

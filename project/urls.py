@@ -22,11 +22,15 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'users', views.Jason_Job)
+router2 = routers.DefaultRouter()
+router2.register(r'users',views.Jason_apply)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('jason/', include(router.urls)),
+    path('jason2/', include(router2.urls)),
     path('', include('Job.urls', namespace= 'jobs')),
-    path('jason', include(router.urls)),
 ]
 
 urlpatterns +=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

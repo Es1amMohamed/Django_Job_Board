@@ -26,8 +26,9 @@ router2 = routers.DefaultRouter()
 router2.register(r'users',views.Jason_apply)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('account.urls', namespace= 'account')),
+    path('admin/', admin.site.urls),
     path('jason/', include(router.urls)),
     path('jason2/', include(router2.urls)),
     path('', include('Job.urls', namespace= 'jobs')),

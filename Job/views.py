@@ -6,6 +6,7 @@ from .job_api import *
 from rest_framework import viewsets
 from .forms import *
 from django.contrib.auth.decorators import login_required
+from .filters import JobFilter
 
 
 
@@ -13,12 +14,14 @@ from django.contrib.auth.decorators import login_required
 
 def job_list(request):
     joblist = Job.objects.all()
-    paginator = Paginator(joblist,3)
+    filter = JobFilter(request.GET,queryset=joblist)
+    joblist = filter.qs
     
+    paginator = Paginator(joblist,3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
-    context = {'jobs':page_obj}
+    context = {'jobs':page_obj , 'filter':filter}
     return render(request,'jobs/job_list.html',context)
 
 def job_details(request,slug):

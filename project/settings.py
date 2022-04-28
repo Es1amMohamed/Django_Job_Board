@@ -40,9 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     ### my apps
     'Job',
+    'contact',
     'rest_framework',
     'bootstrap4',
     'phonenumber_field',
+    
 ]
 
 MIDDLEWARE = [

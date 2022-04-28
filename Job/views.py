@@ -5,6 +5,7 @@ from .models import Job
 from .job_api import *
 from rest_framework import viewsets
 from .forms import *
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -12,7 +13,7 @@ from .forms import *
 
 def job_list(request):
     joblist = Job.objects.all()
-    paginator = Paginator(joblist,1)
+    paginator = Paginator(joblist,3)
     
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -38,6 +39,7 @@ def job_details(request,slug):
     context = {'job':jobdetails , 'form':form}
     return render(request,'jobs/job_details.html',context)
 
+@login_required
 def add_job(request):
     
     if request.method == 'POST':

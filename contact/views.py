@@ -17,9 +17,11 @@ def contact(request):
         send_mail(
             subject,
             message,
-            settings.EMAIL_HOST_USER,
-            [email],
+            email,
+            [settings.EMAIL_HOST_USER],
             
-    )   
+    ) 
+
+          
     
     return render(request,'contact/contact.html',{'myinfo':myinfo})

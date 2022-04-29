@@ -12,7 +12,14 @@ from .filters import JobFilter
 
 # Create your views here.
 
+class Jason_Job(viewsets.ModelViewSet):
+        
+        queryset = Job.objects.all()
+        serializer_class = Job_Jason
+
+
 def job_list(request):
+    jason = Jason_Job
     joblist = Job.objects.all()
     filter = JobFilter(request.GET,queryset=joblist)
     joblist = filter.qs
@@ -21,7 +28,7 @@ def job_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
-    context = {'jobs':page_obj , 'filter':filter}
+    context = {'jobs':page_obj , 'filter':filter,'jason':jason}
     return render(request,'jobs/job_list.html',context)
 
 def job_details(request,slug):
@@ -61,11 +68,10 @@ def add_job(request):
 
 
 
-class Jason_Job(viewsets.ModelViewSet):
-        queryset = Job.objects.all()
-        serializer_class = Job_Jason
+
         
 class Jason_apply(viewsets.ModelViewSet):
+    
     queryset = Apply.objects.all()
     serializer_class = Apply_jason
    
